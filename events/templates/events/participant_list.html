@@ -1,0 +1,41 @@
+{% extends "events/base.html" %}
+{% block title %}Participants{% endblock %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-4">
+  <h1 class="text-2xl font-semibold">Participants</h1>
+  <a href="{% url 'events:participant_create' %}" class="bg-indigo-600 text-white px-4 py-2 rounded">+ Add Participant</a>
+</div>
+
+<div class="bg-white p-4 rounded shadow">
+  <table class="min-w-full">
+    <thead>
+      <tr class="border-b">
+        <th class="py-2 text-left">Name</th>
+        <th class="text-left">Email</th>
+        <th class="text-left">Events</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in participants %}
+      <tr class="border-t">
+        <td class="py-2">{{ p.name }}</td>
+        <td>{{ p.email }}</td>
+        <td>
+          {% for e in p.events.all %}
+            <span class="inline-block bg-gray-200 rounded px-2 py-1 text-sm">{{ e.name }}</span>
+          {% empty %}-{% endfor %}
+        </td>
+        <td>
+          <a href="{% url 'events:participant_update' p.pk %}" class="text-yellow-600">Edit</a> |
+          <a href="{% url 'events:participant_delete' p.pk %}" class="text-red-600">Delete</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="4" class="py-2 text-center">No participants yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

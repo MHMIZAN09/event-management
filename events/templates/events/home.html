@@ -1,0 +1,10 @@
+{% extends "events/base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="text-center py-12">
+  <h1 class="text-3xl font-bold text-indigo-700 mb-4">Welcome to the Event Management System</h1>
+  <p class="text-gray-700 mb-6">Manage Events, Categories, and Participants easily.</p>
+  <a href="{% url 'events:event_list' %}" class="px-5 py-3 bg-indigo-600 text-white rounded">View Events</a>
+</div>
+{% endblock %}

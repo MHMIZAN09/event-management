@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Event Management System{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <!-- Tailwind CSS CDN -->
+    {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
+  </head>
+  <body class="bg-gray-100 text-gray-900">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow">
+      <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+        <a href="{% url 'events:home' %}" class="text-2xl font-semibold text-indigo-600">EMS</a>
+        <div class="space-x-4">
+          <a href="{% url 'events:event_list' %}" class="hover:text-indigo-600">Events</a>
+          <a href="{% url 'events:participant_list' %}" class="hover:text-indigo-600">Participants</a>
+          <a href="{% url 'events:category_list' %}" class="hover:text-indigo-600">Categories</a>
+          <a href="{% url 'events:dashboard' %}" class="hover:text-indigo-600">Dashboard</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6">
+      {% if messages %}
+        <div class="mb-4">
+          {% for message in messages %}
+            <div class="p-3 rounded bg-green-50 border border-green-300">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      {% block content %}{% endblock %}
+    </main>
+
+  </body>
+</html>

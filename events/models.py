@@ -1,6 +1,5 @@
 from django.db import models
-
-# Create your models here.
+from django.utils import timezone
 
 
 class Category(models.Model):
@@ -15,19 +14,23 @@ class Event(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     date = models.DateField()
-    time = models.TimeField(blank=True, null=True)
+    time = models.TimeField()
     location = models.CharField(max_length=255)
     category = models.ForeignKey(
-        Category, on_delete=models.SET_NULL, null=True, related_name="events"
+        Category, on_delete=models.CASCADE, related_name="events"
     )
 
     def __str__(self):
-        return f"{self.name} ({self.date})"
+        return self.name
+
+    @property
+    def is_upcoming(self):
+        return self.date >= timezone.localdate()
 
 
 class Participant(models.Model):
     name = models.CharField(max_length=200)
-    email = models.EmailField(unique=True)
+    email = models.EmailField()
     events = models.ManyToManyField(Event, related_name="participants")
 
     def __str__(self):

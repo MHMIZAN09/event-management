@@ -1,0 +1,44 @@
+{% extends "events/base.html" %}
+{% block title %}Events{% endblock %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-4">
+  <h1 class="text-2xl font-semibold">Events</h1>
+  <a href="{% url 'events:event_create' %}" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition">+ Add Event</a>
+</div>
+
+<form method="get" class="flex flex-wrap gap-2 mb-6 items-center">
+  <input type="text" name="q" placeholder="Search by name or location" value="{{ request.GET.q }}" class="border px-3 py-2 rounded flex-1 min-w-[180px]" />
+
+  <select name="category" class="border px-3 py-2 rounded">
+    <option value="">All Categories</option>
+    {% for c in categories %}
+      <option value="{{ c.id }}" {% if request.GET.category == c.id|stringformat:'s' %}selected{% endif %}>{{ c.name }}</option>
+    {% endfor %}
+  </select>
+
+  <input type="date" name="date_from" value="{{ request.GET.date_from }}" class="border px-3 py-2 rounded" />
+  <input type="date" name="date_to" value="{{ request.GET.date_to }}" class="border px-3 py-2 rounded" />
+
+  <button type="submit" class="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-900 transition">Filter</button>
+</form>
+
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+  {% for event in events %}
+    <div class="bg-white p-4 rounded shadow hover:shadow-lg transition">
+      <h2 class="text-lg font-bold text-indigo-600 mb-1">
+        <a href="{% url 'events:event_detail' event.pk %}">{{ event.name }}</a>
+      </h2>
+      <p class="text-sm text-gray-600">{{ event.date }} {{ event.time }}</p>
+      <p class="text-sm text-gray-700">{{ event.location }}</p>
+      <p class="text-gray-700 mt-2">{{ event.description|truncatechars:80 }}</p>
+      <div class="mt-3 flex justify-between text-sm text-gray-600">
+        <span>Category: {{ event.category.name }}</span>
+        <span>{{ event.participants.count }} Participants</span>
+      </div>
+    </div>
+  {% empty %}
+    <p class="text-gray-500 col-span-full">No events found.</p>
+  {% endfor %}
+</div>
+{% endblock %}

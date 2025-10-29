@@ -1,0 +1,28 @@
+{% extends "events/base.html" %}
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-4">
+  <h1 class="text-2xl font-semibold">Categories</h1>
+  <a href="{% url 'events:category_create' %}" class="bg-indigo-600 text-white px-4 py-2 rounded">+ Add Category</a>
+</div>
+
+<div class="bg-white p-4 rounded shadow">
+  <ul>
+    {% for c in categories %}
+    <li class="flex justify-between border-t py-2">
+      <div>
+        <p class="font-semibold">{{ c.name }}</p>
+        <p class="text-sm text-gray-600">{{ c.description }}</p>
+      </div>
+      <div>
+        <a href="{% url 'events:category_update' c.pk %}" class="text-yellow-600 mr-2">Edit</a>
+        <a href="{% url 'events:category_delete' c.pk %}" class="text-red-600">Delete</a>
+      </div>
+    </li>
+    {% empty %}
+      <li>No categories yet.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

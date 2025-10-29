@@ -1,0 +1,14 @@
+{% extends "events/base.html" %}
+{% block title %}Confirm Delete{% endblock %}
+
+{% block content %}
+<div class="bg-white p-6 rounded shadow text-center">
+  <h2 class="text-xl font-semibold">Confirm Delete</h2>
+  <p class="mt-2">Are you sure you want to delete <strong>{{ object }}</strong>?</p>
+  <form method="post" class="mt-4 space-x-2">
+    {% csrf_token %}
+    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded">Yes, Delete</button>
+    <a href="javascript:history.back()" class="bg-gray-200 px-4 py-2 rounded">Cancel</a>
+  </form>
+</div>
+{% endblock %}
